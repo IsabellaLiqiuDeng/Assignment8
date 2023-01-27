@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
     EditText editText = findViewById(R.id.firstEditText);
     TextView result =  findViewById(R.id.textview);
     CheckBox checkBox =  findViewById(R.id.checkbox);
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     .setAction("undo", click -> cb.setChecked(!b))
                     .show();
         }
+
      }
     });
    }
