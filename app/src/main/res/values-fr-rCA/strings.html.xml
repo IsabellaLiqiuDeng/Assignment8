@@ -10,4 +10,9 @@
     <string name="toast_message">L\'étiquette a été mise à jour.</string>
     <string name="snack_on">La case à cocher est activée maintenant.</string>
     <string name="snack_off">La case à cocher est maintenant désactivée.</string>
+    <string name="enter_your_name">Ecrire votre nom</string>
+    <string name="button1_Next">Le Prochain</string>
+    <string name="button2_Dont">Ne m\'appelle pas comme ça</string>
+    <string name="button3_Thx">Merci</string>
+    <string name="welcome">Bienvue</string>
 </resources>
