@@ -8,5 +8,9 @@
     <string name="toast_message">Label has been updated.</string>
     <string name="snack_on">The checkbox is on now.</string>
     <string name="snack_off">The checkbox is off now.</string>
-
+    <string name="enter_your_name">Enter your name</string>
+    <string name="button1_Next">Next</string>
+    <string name="button2_Dont">Don’t call me that</string>
+    <string name="button3_Thx">Thank You</string>
+    <string name="welcome">Welcome</string>
 </resources>
