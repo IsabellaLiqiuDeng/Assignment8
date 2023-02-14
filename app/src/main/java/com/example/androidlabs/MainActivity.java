@@ -1,10 +1,12 @@
 package com.example.androidlabs;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +20,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<TODO> elements;
+    private ArrayList<TODO> todoList;
     private MyListAdapter myAdapter;
-    TODO todo;
-
+    Cdbtodo db;
+    private static final String TAG = MainActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +33,19 @@ public class MainActivity extends AppCompatActivity {
         Switch swUrgernt = findViewById(R.id.switch1);
         Button addButton = findViewById(R.id.button1);
 
-        elements = new ArrayList<>();
-
+        db = new Cdbtodo(this);
+        todoList = db.getAllTodo();
+        db.printCursor();
 
         addButton.setOnClickListener(click -> {
 
             String listItem = editText.getText().toString();
+            boolean isUrgent= swUrgernt.isChecked();
 
-            todo = new TODO();
-            todo.setTodoText(listItem);
-            todo.setUrgent(swUrgernt.isChecked());
+            TODO todo = new TODO(listItem,isUrgent);
+            db.addTodo(todo);
 
-            elements.add(todo);
+            todoList.add(todo);
             myAdapter.notifyDataSetChanged();
 
             editText.setText("");
@@ -51,37 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
         ListView myList = findViewById(R.id.myList);
         myList.setAdapter(myAdapter = new MyListAdapter());
-
-        myList.setOnItemClickListener((parent, view, pos, id) -> {
-//            elements.remove(pos);
-//            myAdapter.notifyDataSetChanged();
-        });
-
         myList.setOnItemLongClickListener((p, b, pos, id) -> {
-
             View newView = getLayoutInflater().inflate(R.layout.todo, null);
             TextView tView = newView.findViewById(R.id.textGoesHere);
-
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-            //            tView.setText(elements.get(pos).getTodoText());
-
             alertDialogBuilder.setTitle("Do you want to delete this?")
-                    //What is the message:
                     .setMessage("The selected row is: " + pos +
-                            "\n " + elements.get(pos).todoText)
-
-                    //what the Yes button does:
+                            "\n " + todoList.get(pos).todoText)
                     .setPositiveButton("Yes", (click, arg) -> {
-                        elements.remove(elements.get(pos));
+                        todoList.remove(todoList.get(pos));
+                        db.deleteTodo(pos);
                         myAdapter.notifyDataSetChanged();
                     })
-
-                    //What the No button does:
                     .setNegativeButton("No", (click, arg) -> {
                     })
                     .setView(newView)
-                    //Show the dialog
                     .create().show();
             return true;
         });
@@ -90,11 +77,11 @@ public class MainActivity extends AppCompatActivity {
     private class MyListAdapter extends BaseAdapter {
 
         public int getCount() {
-            return elements.size();
+            return todoList.size();
         }
 
         public TODO getItem(int position) {
-            return elements.get(position);
+            return todoList.get(position);
         }
 
         public long getItemId(int position) {
@@ -127,12 +114,22 @@ public class MainActivity extends AppCompatActivity {
             return newView;
         }
     }
+    @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
+    }
 }
 
 class TODO {
 
     String todoText;
-    boolean isUrgent;
+    Boolean isUrgent;
+
+    public TODO(String todoText, boolean isUrgent) {
+        this.todoText=todoText;
+        this.isUrgent=isUrgent;
+    }
 
     public String getTodoText() {
         return todoText;
