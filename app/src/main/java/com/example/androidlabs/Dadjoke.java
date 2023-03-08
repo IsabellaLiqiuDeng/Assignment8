@@ -1,4 +1,4 @@
-package com.example.assignment8;
+package com.example.androidlabs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
