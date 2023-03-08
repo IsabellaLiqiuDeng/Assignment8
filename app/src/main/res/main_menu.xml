@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/img"
+        android:title="@string/menu_item1_title"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/img_1"
+        android:title="@string/menu_item2_title"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_about"
+        android:title=""
+        android:orderInCategory="@integer/material_motion_duration_medium_1"
+        app:showAsAction="never" />
+
+
+</menu>
